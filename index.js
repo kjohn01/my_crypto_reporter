@@ -18,19 +18,42 @@ const coins = [
     },
 ];
 
+const checkValue = (text) => {
+  for (let c of coins) {
+    if (new RegExp(`(${c.symbol})|(${c.name})`, 'i').test(text)) {
+      const {
+        data: { coin },
+      } = await coinranking.getCoin(c.id);
+      await context.sendText(`The prce of ${c.symbol} is ${coin.price} USD`);
+      return;
+    }
+    else {
+      await context.sendText('no result');
+      return;
+    }
+  }
+};
+
+const handleError = () => {
+  await context.sendText('Plz specify the name of the digicoin');
+  return;
+}
+
 module.exports = async function App(context) {
-    const { text } = context.event;
-    for (let c of coins) {
-      if (new RegExp(`(${c.symbol})|(${c.name})`, 'i').test(text)) {
-        const {
-          data: { coin },
-        } = await coinranking.getCoin(c.id);
-        await context.sendText(`The prce of ${c.symbol} is ${coin.price} USD`);
+    let text = '';
+    if (context.event.isPayload) {
+      if (context.event.payload === 'GET_STARTED') {
+        await context.sendText('Just say name of the digicoin that you wish to know the value');
         return;
       }
       else {
-        await context.sendText('no result');
-        return;
+        text = context.event.payload;
       }
     }
+    else if (context.event.isText) {
+      text = context.event.text;
+    }
+    else handleError();
+    await checkValue(text);
+    return;
 };
