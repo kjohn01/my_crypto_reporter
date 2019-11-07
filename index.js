@@ -35,25 +35,35 @@ const checkValue = (text) => {
 };
 
 const handleError = () => {
-  await context.sendText('Plz specify the name of the digicoin');
-  return;
-}
+  context.sendText('Plz specify the name of the digicoin');
+};
+
+const handOver = () => {
+  context.passThreadControlToPageInbox(); // 把控制權轉給 Inbox
+};
 
 module.exports = async function App(context) {
     let text = '';
-    if (context.event.isPayload) {
-      if (context.event.payload === 'GET_STARTED') {
-        await context.sendText('Just say name of the digicoin that you wish to know the value');
-        return;
+    if (context.isThreadOwner()) {
+      if (context.event.isPayload) {
+        if (context.event.payload === 'GET_STARTED') {
+          await context.sendText('Just say name of the digicoin that you wish to know the value');
+          return;
+        }
+        else {
+          text = context.event.payload;
+        }
       }
-      else {
-        text = context.event.payload;
+      else if (context.event.isText) {
+        if (context.event.text === '叫你們老闆出來') {
+          await handOver();
+          return;
+        } else {
+          text = context.event.text;
+        }
       }
+      else await handleError();
+      await checkValue(text);
+      return;
     }
-    else if (context.event.isText) {
-      text = context.event.text;
-    }
-    else handleError();
-    await checkValue(text);
-    return;
 };
