@@ -18,7 +18,7 @@ const coins = [
     },
 ];
 
-const checkValue = (text) => {
+const checkValue = async (text, context) => {
   for (let c of coins) {
     if (new RegExp(`(${c.symbol})|(${c.name})`, 'i').test(text)) {
       const {
@@ -34,11 +34,11 @@ const checkValue = (text) => {
   }
 };
 
-const handleError = () => {
+const handleError = (context) => {
   context.sendText('Plz specify the name of the digicoin');
 };
 
-const handOver = () => {
+const handOver = (context) => {
   context.passThreadControlToPageInbox(); // 把控制權轉給 Inbox
 };
 
@@ -56,14 +56,14 @@ module.exports = async function App(context) {
       }
       else if (context.event.isText) {
         if (context.event.text === '叫你們老闆出來') {
-          await handOver();
+          await handOver(context);
           return;
         } else {
           text = context.event.text;
         }
       }
-      else await handleError();
-      await checkValue(text);
+      else await handleError(context);
+      await checkValue(text, context);
       return;
     }
 };
