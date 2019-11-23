@@ -18,37 +18,97 @@ const coins = [
     },
 ];
 
-const getStart = (context) => {
+const quickReplyLine = {
+  quickReply: {
+    items: [
+      {
+        type: 'action',
+        action: {
+          type: 'message',
+          label: 'BTC',
+          text: 'BTC',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'message',
+          label: 'ETH',
+          text: 'ETH',
+        },
+      },
+      {
+        type: 'action',
+        action: {
+          type: 'message',
+          label: 'XRP',
+          text: 'XRP',
+        },
+      },
+    ],
+  }
+};
+const quickReplyFB = {
+  quick_replies: [
+    {
+      content_type: 'text',
+      title: 'BTC',
+      payload: 'BTC',
+    },
+    {
+      content_type: 'text',
+      title: 'ETH',
+      payload: 'ETH',
+    },
+    {
+      content_type: 'text',
+      title: 'XRP',
+      payload: 'XRP',
+    },
+  ],
+};
+
+const getStart = async (context) => {
   switch (context.platform) {
     case 'line':
       if (context.event.isFollow) {
-        await context.sendText('真正高興能見到你，滿心歡喜的歡迎你～');
+        await context.sendSticker({ 
+          packageId: '11538', 
+          stickerId: '51626494', 
+        });
+        await context.sendText('Just say name of the digicoin that you wish to know the value', quickReplyLine);
         return;
       } else if (context.event.isUnfollow) {
         // Remove user data
       }
       break;
-    // For fb messenger
     case 'messenger':
       if (context.event.payload && context.event.payload === 'GET_STARTED') {
-        await context.sendText('Just say name of the digicoin that you wish to know the value');
+        await context.sendText('Just say name of the digicoin that you wish to know the value', quickReplyFB);
         return;
       }
       break;
     default:
       console.error('unidentified platform');
-      break;
+      return;
   }
 };
 
-const handleError = (context) => {
+const handleError = async (context) => {
   switch (context.platform) {
     case 'line':
-      context.sendText('Plz specify the name of the digicoin');
+      await context.sendSticker({ 
+        packageId: '11537', 
+        stickerId: '52002744', 
+      });
+      await context.sendText('Plz specify the name of the digicoin', quickReplyLine);
       break;
     // For fb messenger
+    case 'messenger':
+      await context.sendText('Plz specify the name of the digicoin', quickReplyFB);
+      break;
     default:
-      context.sendText('Plz specify the name of the digicoin');
+      await context.sendText('Plz specify the name of the digicoin');
       break;
   }
 };
@@ -70,7 +130,7 @@ const checkValue = async (text, context) => {
 };
 
 // Handover to Inbox (fb only)
-const handOver = (context) => {
+const handOver = async (context) => {
   if (context.platform === 'messenger') {
     await context.passThreadControlToPageInbox();
   }
