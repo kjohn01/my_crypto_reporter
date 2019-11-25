@@ -69,6 +69,7 @@ const quickReplyFB = {
 };
 
 const getStart = async context => {
+  const msg = 'Just say name of the digicoin that you wish to know the value';
   switch (context.platform) {
     case 'line':
       if (context.event.isFollow) {
@@ -76,10 +77,7 @@ const getStart = async context => {
           packageId: '11538',
           stickerId: '51626494',
         });
-        await context.sendText(
-          'Just say name of the digicoin that you wish to know the value',
-          quickReplyLine
-        );
+        await context.sendText(msg, quickReplyLine);
         await context.setState({ greeting: true });
         return;
       } else if (context.event.isUnfollow) {
@@ -88,10 +86,14 @@ const getStart = async context => {
       break;
     case 'messenger':
       if (context.event.payload && context.event.payload === 'GET_STARTED') {
-        await context.sendText(
-          'Just say name of the digicoin that you wish to know the value',
-          quickReplyFB
-        );
+        await context.sendText(msg, quickReplyFB);
+        await context.setState({ greeting: true });
+        return;
+      }
+      break;
+    case 'telegram':
+      if (context.event.payload && context.event.payload === '/start') {
+        await context.sendText(msg);
         await context.setState({ greeting: true });
         return;
       }
