@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 module.exports = {
   session: {
     driver: 'memory',
@@ -7,8 +5,22 @@ module.exports = {
       memory: {
         maxSize: 500,
       },
+      file: {
+        dirname: '.sessions',
+      },
+      redis: {
+        port: 6379,
+        host: '127.0.0.1',
+        password: 'auth',
+        db: 0,
+      },
+      mongo: {
+        url: 'mongodb://localhost:27017',
+        collectionName: 'sessions',
+      },
     },
   },
+  initialState: {},
   channels: {
     messenger: {
       enabled: true,
@@ -65,6 +77,24 @@ module.exports = {
       sendMethod: 'reply',
       shouldBatch: true,
     },
+    telegram: {
+      enabled: true,
+      path: '/webhooks/telegram',
+      accessToken: process.env.TELEGRAM_ACCESS_TOKEN,
+    },
+    slack: {
+      enabled: true,
+      path: '/webhooks/slack',
+      accessToken: process.env.SLACK_ACCESS_TOKEN,
+      verificationToken: process.env.SLACK_VERIFICATION_TOKEN,
+    },
+    viber: {
+      enabled: true,
+      path: '/webhooks/viber',
+      accessToken: process.env.VIBER_ACCESS_TOKEN,
+      sender: {
+        name: 'xxxx',
+      },
+    },
   },
 };
-
