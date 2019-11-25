@@ -152,23 +152,22 @@ const handOver = async context => {
 
 module.exports = async function App(context) {
   let text = '';
-  if (context.isThreadOwner()) {
-    await getStart(context);
-    if (context.event.isPayload) text = context.event.payload;
-    else if (context.event.isText) {
-      if (context.event.text === '叫你們老闆出來') {
-        await handOver(context);
-        return;
-      } else {
-        text = context.event.text;
-      }
-    }
-    // For unexpecting input
-    else {
-      await handleError(context);
+  if (context.platform === 'messenger' && !context.isThreadOwner()) return;
+  await getStart(context);
+  if (context.event.isPayload) text = context.event.payload;
+  else if (context.event.isText) {
+    if (context.event.text === '叫你們老闆出來') {
+      await handOver(context);
       return;
+    } else {
+      text = context.event.text;
     }
-    await checkValue(text, context);
+  }
+  // For unexpecting input
+  else {
+    await handleError(context);
     return;
   }
+  await checkValue(text, context);
+  return;
 };
