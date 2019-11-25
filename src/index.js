@@ -92,7 +92,7 @@ const getStart = async context => {
       }
       break;
     case 'telegram':
-      if (context.event.payload && context.event.payload === '/start') {
+      if (context.event.isText && context.event.text === '/start') {
         await context.sendText(msg);
         await context.setState({ greeting: true });
         return;
