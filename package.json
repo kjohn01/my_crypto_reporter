@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "npx bottender dev",
     "lint": "npx eslint .",
-    "start": "npx bottender start",
+    "start": "npm i && npx bottender start",
     "test": "npx jest"
   },
   "keywords": [],
