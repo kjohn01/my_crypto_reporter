@@ -1,4 +1,4 @@
-const axios = require('axios'); 
+const axios = require('axios');
 
 const client = axios.create({
   baseURL: 'https://api.coinranking.com/v1/public/',
@@ -11,7 +11,7 @@ module.exports = {
         base: 'USD',
       },
     });
-    
+
     return response.data;
   },
 };

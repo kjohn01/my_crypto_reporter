@@ -37,7 +37,8 @@ module.exports = {
         greeting: [
           {
             locale: 'default',
-            text: 'Hello {{user_first_name}}! Welcome to my quick cryto reporter~ ?',
+            text:
+              'Hello {{user_first_name}}! Welcome to my quick cryto reporter~ ?',
           },
           {
             locale: 'zh_TW',
@@ -52,17 +53,17 @@ module.exports = {
               {
                 type: 'postback',
                 title: 'BTC',
-                payload: 'btc'
+                payload: 'btc',
               },
               {
                 type: 'postback',
                 title: 'ETH',
-                payload: 'eth'
+                payload: 'eth',
               },
               {
                 type: 'postback',
                 title: 'XRP',
-                payload: 'xrp'
+                payload: 'xrp',
               },
             ],
           },
