@@ -80,6 +80,7 @@ const getStart = async context => {
           'Just say name of the digicoin that you wish to know the value',
           quickReplyLine
         );
+        await context.setState({ greeting: true });
         return;
       } else if (context.event.isUnfollow) {
         // Remove user data
@@ -91,6 +92,7 @@ const getStart = async context => {
           'Just say name of the digicoin that you wish to know the value',
           quickReplyFB
         );
+        await context.setState({ greeting: true });
         return;
       }
       break;
@@ -159,15 +161,14 @@ module.exports = async function App(context) {
     if (context.event.text === '叫你們老闆出來') {
       await handOver(context);
       return;
-    } else {
-      text = context.event.text;
-    }
+    } else text = context.event.text;
   }
   // For unexpecting input
   else {
     await handleError(context);
     return;
   }
-  await checkValue(text, context);
+  if (context.state.greeting) await context.setState({ greeting: false });
+  else await checkValue(text, context);
   return;
 };
