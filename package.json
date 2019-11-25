@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx bottender start"
+    "dev": "npx bottender dev",
+    "lint": "npx eslint .",
+    "start": "npx bottender start",
+    "test": "npx jest"
   },
   "keywords": [],
   "author": "",
@@ -15,8 +17,15 @@
     "bottender": "^1.0.0-alpha.24",
     "crypto": "^1.0.1",
     "dotenv": "^8.2.0",
+    "jest": "^24.9.0",
     "nock": "^11.7.0",
     "random-item": "^3.0.0",
     "supertest": "^4.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^6.7.1",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "prettier": "^1.19.1"
   }
 }
