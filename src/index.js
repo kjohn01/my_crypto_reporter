@@ -121,6 +121,7 @@ const handleError = async context => {
         quickReplyFB
       );
       break;
+    // Telegram
     default:
       await context.sendText('Plz specify the name of the digicoin');
       break;
