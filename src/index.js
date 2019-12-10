@@ -14,7 +14,7 @@ const coins = [
   {
     id: 3,
     symbol: 'XRP',
-    name: 'XRP',
+    name: 'Ripple',
   },
 ];
 
@@ -140,7 +140,8 @@ const checkValue = async (text, context) => {
       await context.sendText(`You are requesting the value of ${c.symbol}, and its ID is ${c.id}`);
       return;
     } else {
-      await handleError(context);
+      // await handleError(context);
+      await context.sendText('Regex failed...');
       return;
     }
   }
