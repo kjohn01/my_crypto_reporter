@@ -136,15 +136,11 @@ const checkValue = async (text, context) => {
       const {
         data: { coin },
       } = await coinranking.getCoin(c.id);
-      // await context.sendText(`The price of ${c.symbol} is ${coin.price} USD`);
-      await context.sendText(`You are requesting the value of ${c.symbol}, and its ID is ${c.id}`);
+      await context.sendText(`The price of ${c.symbol} is ${coin.price} USD`);
       return;
-    } else {
-      // await handleError(context);
-      await context.sendText('Regex failed...');
-      return;
-    }
+    } 
   }
+  return await handleError(context);
 };
 
 // Handover to Inbox (fb only)
