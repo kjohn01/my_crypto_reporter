@@ -136,7 +136,8 @@ const checkValue = async (text, context) => {
       const {
         data: { coin },
       } = await coinranking.getCoin(c.id);
-      await context.sendText(`The prce of ${c.symbol} is ${coin.price} USD`);
+      // await context.sendText(`The price of ${c.symbol} is ${coin.price} USD`);
+      await context.sendText(`You are requesting the value of ${c.symbol}, and its ID is ${c.id}`);
       return;
     } else {
       await handleError(context);
@@ -166,7 +167,7 @@ module.exports = async function App(context) {
       return;
     } else text = context.event.text;
   }
-  // For unexpecting input
+  // For unexpected input
   else {
     await handleError(context);
     return;
